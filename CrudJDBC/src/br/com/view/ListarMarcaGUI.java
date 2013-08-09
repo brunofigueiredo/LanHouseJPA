@@ -4,17 +4,30 @@
  */
 package br.com.view;
 
+import br.com.modelo.controller.MarcaController;
+import br.com.modelo.negocio.Marca;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author rosicleia.souza
  */
 public class ListarMarcaGUI extends javax.swing.JFrame {
-
+    private MarcaTableModel modelo;
     /**
      * Creates new form ListarMarcaGUI
      */
     public ListarMarcaGUI() {
         initComponents();
+        List<Marca> lista = new ArrayList<Marca>();
+        
+        MarcaController mc = new MarcaController();
+        lista = mc.getMarca();
+        
+        modelo = new MarcaTableModel(lista);
+        tabMarca.setModel(modelo);
     }
 
     /**
@@ -29,18 +42,21 @@ public class ListarMarcaGUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txPesquisa = new javax.swing.JTextField();
-        btPesquisa = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabMarca = new javax.swing.JTable();
         btInserir = new javax.swing.JButton();
         btAtualizar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Marcas");
 
-        btPesquisa.setText("Pesquisar");
+        txPesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txPesquisaActionPerformed(evt);
+            }
+        });
 
         tabMarca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -56,10 +72,25 @@ public class ListarMarcaGUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tabMarca);
 
         btInserir.setText("Inserir");
+        btInserir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btInserirActionPerformed(evt);
+            }
+        });
 
         btAtualizar.setText("Atualizar");
+        btAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAtualizarActionPerformed(evt);
+            }
+        });
 
         btExcluir.setText("Excluir");
+        btExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -74,10 +105,8 @@ public class ListarMarcaGUI extends javax.swing.JFrame {
                                 .addComponent(jLabel1))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(txPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btPesquisa)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(txPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 119, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 15, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -97,12 +126,10 @@ public class ListarMarcaGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btPesquisa))
+                .addComponent(txPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btInserir)
                     .addComponent(btAtualizar)
@@ -124,45 +151,55 @@ public class ListarMarcaGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ListarMarcaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ListarMarcaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ListarMarcaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ListarMarcaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void txPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txPesquisaActionPerformed
+        MarcaController mc = new MarcaController();
+        List<Marca> lista = new ArrayList<>();
+        lista = mc.getMarcaByNome(txPesquisa.getText());
+        modelo.limpar();
+        modelo = new MarcaTableModel(lista);
+        tabMarca.setModel(modelo);
+    }//GEN-LAST:event_txPesquisaActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ListarMarcaGUI().setVisible(true);
-            }
-        });
-    }
+    private void btInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInserirActionPerformed
+        InserirMarcaGUI in = new InserirMarcaGUI(modelo);
+        in.setVisible(true);
+    }//GEN-LAST:event_btInserirActionPerformed
+
+    private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
+        int selecionado = -1;
+        selecionado = tabMarca.getSelectedRow();
+        
+        if (selecionado >=0){
+            Integer idMarca = (Integer)modelo.getValueAt(selecionado, 0);
+            AtualizarMarcaGUI am = new AtualizarMarcaGUI(selecionado, idMarca,
+                    modelo);
+            am.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione uma linha");
+        }
+    }//GEN-LAST:event_btAtualizarActionPerformed
+
+    private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
+         int selecionado = -1;
+        selecionado = tabMarca.getSelectedRow();
+        
+        if (selecionado >=0){
+           
+           Integer id = (Integer)modelo.getValueAt(selecionado, 0);
+           MarcaController mc = new MarcaController();
+           mc.excluir(id);
+           
+           modelo.removeMarca(selecionado);
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione uma linha");
+        }
+    }//GEN-LAST:event_btExcluirActionPerformed
+
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;
     private javax.swing.JButton btExcluir;
     private javax.swing.JButton btInserir;
-    private javax.swing.JButton btPesquisa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

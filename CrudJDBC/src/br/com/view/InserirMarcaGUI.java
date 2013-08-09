@@ -4,17 +4,21 @@
  */
 package br.com.view;
 
+import br.com.modelo.controller.MarcaController;
+import br.com.modelo.negocio.Marca;
+
 /**
  *
  * @author rosicleia.souza
  */
 public class InserirMarcaGUI extends javax.swing.JFrame {
-
+private MarcaTableModel modelo;
     /**
      * Creates new form MarcaGUI
      */
-    public InserirMarcaGUI() {
+    public InserirMarcaGUI(MarcaTableModel md) {
         initComponents();
+        modelo = md;
     }
 
     /**
@@ -42,6 +46,11 @@ public class InserirMarcaGUI extends javax.swing.JFrame {
         btLimpar.setText("Limpar");
 
         jButton2.setText("Salvar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -95,40 +104,22 @@ public class InserirMarcaGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InserirMarcaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InserirMarcaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InserirMarcaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InserirMarcaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Marca m = new Marca();
+        m.setNome(txMarca.getText());
+        
+        MarcaController mc = new MarcaController();
+        mc.inserir(m);
+        
+        modelo.addMarca(buscarMarca(m.getNome()));
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new InserirMarcaGUI().setVisible(true);
-            }
-        });
+    private Marca buscarMarca(String nome){
+        MarcaController mc = new MarcaController();
+        return mc.getMarcByNome(nome);
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLimpar;
     private javax.swing.JButton jButton2;

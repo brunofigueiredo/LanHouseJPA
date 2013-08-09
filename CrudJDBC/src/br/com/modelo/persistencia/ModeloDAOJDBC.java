@@ -1,6 +1,6 @@
 package br.com.modelo.persistencia;
 
-import br.com.modelo.negocio.Marca;
+import br.com.modelo.negocio.Modelo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  *
  * @author rosicleia.souza
  */
-public class MarcaDAOJDBC implements MarcaDAO {
+public class ModeloDAOJDBC implements ModeloDAO {
 
     private final String INSERT = "INSERT INTO MARCA (NOME) VALUES (?)";
     private final String UPDATE = "UPDATE MARCA SET NOME = ? WHERE ID = ?";
@@ -21,22 +21,22 @@ public class MarcaDAOJDBC implements MarcaDAO {
     private final String LISTBYNOME = "SELECT * FROM MARCA WHERE NOME LIKE ?";
     private final String LISTBYID = "SELECT * FROM MARCA WHERE ID = ?";
 
-    public void inserir(Marca m) {
+    public void inserir(Modelo m) {
         Connection conn = null;
         try {
             conn = FabricaConexao.getConnection();
             PreparedStatement pstm = conn.prepareStatement(INSERT);
-            pstm.setString(1, m.getNome());
+            pstm.setString(1, m.get);
             pstm.execute();
-            JOptionPane.showMessageDialog(null, "Marca cadastrada com sucesso");
+            JOptionPane.showMessageDialog(null, "Modelo cadastrada com sucesso");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar uma marca: "
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar uma modelo: "
                     + e.getMessage());
         }
     }
 
     
-    public void atualizar(Marca m) {
+    public void atualizar(Modelo m) {
        Connection conn = null;
         try {
             conn = FabricaConexao.getConnection();
@@ -44,9 +44,9 @@ public class MarcaDAOJDBC implements MarcaDAO {
             pstm.setString(1, m.getNome());
             pstm.setInt(2, m.getId());
             pstm.execute();
-            JOptionPane.showMessageDialog(null, "Marca atualizada com sucesso");
+            JOptionPane.showMessageDialog(null, "Modelo atualizada com sucesso");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao atualizar uma marca: "
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar um modelo: "
                     + e.getMessage());
         }
     }
@@ -59,43 +59,43 @@ public class MarcaDAOJDBC implements MarcaDAO {
             PreparedStatement pstm = conn.prepareStatement(DELETE);
             pstm.setInt(1, id);
             pstm.execute();
-            JOptionPane.showMessageDialog(null, "Marca excluída com sucesso");
+            JOptionPane.showMessageDialog(null, "Modelo excluída com sucesso");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir uma marca: "
+            JOptionPane.showMessageDialog(null, "Erro ao excluir uma modelo: "
                     + e.getMessage());
         }
     }
 
     
-    public List<Marca> getMarcas() {
+    public List<Modelo> getModelos() {
        Connection conn = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
-        ArrayList<Marca> marcas = new ArrayList<Marca>();
+        ArrayList<Modelo> modelos = new ArrayList<Modelo>();
         try {
             conn = FabricaConexao.getConnection();
             pstm = conn.prepareStatement(LIST);
             rs = pstm.executeQuery();
             
             while (rs.next()){
-                Marca marca = new Marca();
-                marca.setId(rs.getInt("id"));
-                marca.setNome(rs.getString("nome"));
-                marcas.add(marca);
+                Modelo modelo = new Modelo();
+                modelo.setId(rs.getInt("id"));
+                modelo.setNome(rs.getString("nome"));
+                modelos.add(modelo);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar as marcas: "
+            JOptionPane.showMessageDialog(null, "Erro ao listar as modelos: "
                     + e.getMessage());
         }
-        return marcas;
+        return modelos;
     }
 
     
-    public List<Marca> getMarcasByNome(String nome) {
+    public List<Modelo> getModelosByNome(String nome) {
         Connection conn = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
-        ArrayList<Marca> marcas = new ArrayList<Marca>();
+        ArrayList<Modelo> modelos = new ArrayList<Modelo>();
         try {
             conn = FabricaConexao.getConnection();
             pstm = conn.prepareStatement(LISTBYNOME);
@@ -103,24 +103,24 @@ public class MarcaDAOJDBC implements MarcaDAO {
             rs = pstm.executeQuery();
             
             while (rs.next()){
-                Marca marca = new Marca();
-                marca.setId(rs.getInt("id"));
-                marca.setNome(rs.getString("nome"));
-                marcas.add(marca);
+                Modelo modelo = new Modelo();
+                modelo.setId(rs.getInt("id"));
+                modelo.setNome(rs.getString("nome"));
+                modelos.add(modelo);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar as marcas: "
+            JOptionPane.showMessageDialog(null, "Erro ao listar as modelos: "
                     + e.getMessage());
         }
-        return marcas;
+        return modelos;
     }
 
    
-    public Marca getMarcasById(int id) {
+    public Modelo getModelosById(int id) {
         Connection conn = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
-        Marca marca = new Marca();
+        Modelo modelo = new Modelo();
         try {
             conn = FabricaConexao.getConnection();
             pstm = conn.prepareStatement(LISTBYID);
@@ -129,23 +129,23 @@ public class MarcaDAOJDBC implements MarcaDAO {
             
             while (rs.next()){
                 
-                marca.setId(rs.getInt("id"));
-                marca.setNome(rs.getString("nome"));
+                modelo.setId(rs.getInt("id"));
+                modelo.setNome(rs.getString("nome"));
                 
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar as marcas: "
+            JOptionPane.showMessageDialog(null, "Erro ao listar as modelos: "
                     + e.getMessage());
         }
-        return marca;
+        return modelo;
     }
 
     @Override
-    public Marca getMarcaByNome(String nome) {
+    public Modelo getModeloByNome(String nome) {
         Connection conn = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
-        Marca marca = new Marca();
+        Modelo modelo = new Modelo();
         try {
             conn = FabricaConexao.getConnection();
             pstm = conn.prepareStatement(LISTBYNOME);
@@ -154,14 +154,14 @@ public class MarcaDAOJDBC implements MarcaDAO {
             
             while (rs.next()){
                 
-                marca.setId(rs.getInt("id"));
-                marca.setNome(rs.getString("nome"));
+                modelo.setId(rs.getInt("id"));
+                modelo.setNome(rs.getString("nome"));
                 
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao listar as marcas: "
+            JOptionPane.showMessageDialog(null, "Erro ao listar as modelos: "
                     + e.getMessage());
         }
-        return marca;
+        return modelo;
     }
 }
