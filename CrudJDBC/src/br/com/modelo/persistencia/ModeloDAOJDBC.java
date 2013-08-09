@@ -1,5 +1,6 @@
 package br.com.modelo.persistencia;
 
+import br.com.modelo.negocio.Marca;
 import br.com.modelo.negocio.Modelo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,61 +15,68 @@ import javax.swing.JOptionPane;
  */
 public class ModeloDAOJDBC implements ModeloDAO {
 
-    private final String INSERT = "INSERT INTO MARCA (NOME) VALUES (?)";
-    private final String UPDATE = "UPDATE MARCA SET NOME = ? WHERE ID = ?";
-    private final String DELETE = "DELETE FROM MARCA WHERE ID = ?";
-    private final String LIST = "SELECT * FROM MARCA";
-    private final String LISTBYNOME = "SELECT * FROM MARCA WHERE NOME LIKE ?";
-    private final String LISTBYID = "SELECT * FROM MARCA WHERE ID = ?";
+    private final String INSERT = "INSERT INTO MODELO "
+            + "(DESCRICAO, POTENCIA, MARCA_ID) VALUES (?,?,?)";
+    private final String UPDATE = "UPDATE MODELO SET "
+            + "DESCRICAO = ?, POTENCIA = ?, MARCA = ? WHERE ID = ?";
+    private final String DELETE = "DELETE FROM MODELO WHERE ID = ?";
+    private final String LIST = "SELECT * FROM MODELO, MARCA "
+            + "WHERE MODELO.MARCA_ID = MARCA.ID";
+    private final String LISTBYNOME = "SELECT * FROM MODELO, "
+            + "MARCA WHERE DESCRICAO LIKE ? AND "
+            + "MODELO.MARCA_ID = MARCA.ID";
+    private final String LISTBYID = "SELECT * FROM MODELO, MARCA "
+            + "WHERE ID = ? AND MODELO.MARCA_ID = MARCA.ID";
 
     public void inserir(Modelo m) {
         Connection conn = null;
         try {
             conn = FabricaConexao.getConnection();
             PreparedStatement pstm = conn.prepareStatement(INSERT);
-            pstm.setString(1, m.get);
+            pstm.setString(1, m.getDescricao());
+            pstm.setInt(2, m.getPotencia());
+            pstm.setInt(3, m.getMarca().getId());
             pstm.execute();
             JOptionPane.showMessageDialog(null, "Modelo cadastrada com sucesso");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar uma modelo: "
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar um modelo: "
                     + e.getMessage());
         }
     }
 
-    
     public void atualizar(Modelo m) {
-       Connection conn = null;
+        Connection conn = null;
         try {
             conn = FabricaConexao.getConnection();
             PreparedStatement pstm = conn.prepareStatement(UPDATE);
-            pstm.setString(1, m.getNome());
-            pstm.setInt(2, m.getId());
+            pstm.setString(1, m.getDescricao());
+            pstm.setInt(2, m.getPotencia());
+            pstm.setInt(3, m.getMarca().getId());
+            pstm.setInt(4, m.getId());
             pstm.execute();
-            JOptionPane.showMessageDialog(null, "Modelo atualizada com sucesso");
+            JOptionPane.showMessageDialog(null, "Modelo atualizado com sucesso");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar um modelo: "
                     + e.getMessage());
         }
     }
 
-   
     public void excluir(int id) {
-       Connection conn = null;
+        Connection conn = null;
         try {
             conn = FabricaConexao.getConnection();
             PreparedStatement pstm = conn.prepareStatement(DELETE);
             pstm.setInt(1, id);
             pstm.execute();
-            JOptionPane.showMessageDialog(null, "Modelo excluída com sucesso");
+            JOptionPane.showMessageDialog(null, "Modelo excluído com sucesso");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir uma modelo: "
+            JOptionPane.showMessageDialog(null, "Erro ao excluir um modelo: "
                     + e.getMessage());
         }
     }
 
-    
     public List<Modelo> getModelos() {
-       Connection conn = null;
+        Connection conn = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
         ArrayList<Modelo> modelos = new ArrayList<Modelo>();
@@ -76,11 +84,17 @@ public class ModeloDAOJDBC implements ModeloDAO {
             conn = FabricaConexao.getConnection();
             pstm = conn.prepareStatement(LIST);
             rs = pstm.executeQuery();
-            
-            while (rs.next()){
+
+            while (rs.next()) {
                 Modelo modelo = new Modelo();
                 modelo.setId(rs.getInt("id"));
-                modelo.setNome(rs.getString("nome"));
+                modelo.setDescricao(rs.getString("descricao"));
+                modelo.setPotencia(rs.getInt("potencia"));
+
+                Marca ma = new Marca();
+                ma.setId(rs.getInt("marca.id"));
+                ma.setNome(rs.getString("marca.nome"));
+                modelo.setMarca(ma);
                 modelos.add(modelo);
             }
         } catch (Exception e) {
@@ -90,7 +104,6 @@ public class ModeloDAOJDBC implements ModeloDAO {
         return modelos;
     }
 
-    
     public List<Modelo> getModelosByNome(String nome) {
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -101,11 +114,17 @@ public class ModeloDAOJDBC implements ModeloDAO {
             pstm = conn.prepareStatement(LISTBYNOME);
             pstm.setString(1, '%' + nome + '%');
             rs = pstm.executeQuery();
-            
-            while (rs.next()){
+
+            while (rs.next()) {
                 Modelo modelo = new Modelo();
                 modelo.setId(rs.getInt("id"));
-                modelo.setNome(rs.getString("nome"));
+                modelo.setDescricao(rs.getString("descricao"));
+                modelo.setPotencia(rs.getInt("potencia"));
+
+                Marca ma = new Marca();
+                ma.setId(rs.getInt("marca.id"));
+                ma.setNome(rs.getString("marca.nome"));
+                modelo.setMarca(ma);
                 modelos.add(modelo);
             }
         } catch (Exception e) {
@@ -115,7 +134,6 @@ public class ModeloDAOJDBC implements ModeloDAO {
         return modelos;
     }
 
-   
     public Modelo getModelosById(int id) {
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -126,12 +144,18 @@ public class ModeloDAOJDBC implements ModeloDAO {
             pstm = conn.prepareStatement(LISTBYID);
             pstm.setInt(1, id);
             rs = pstm.executeQuery();
-            
-            while (rs.next()){
-                
+
+            while (rs.next()) {
+
                 modelo.setId(rs.getInt("id"));
-                modelo.setNome(rs.getString("nome"));
-                
+                modelo.setDescricao(rs.getString("descricao"));
+                modelo.setPotencia(rs.getInt("potencia"));
+
+                Marca ma = new Marca();
+                ma.setId(rs.getInt("marca.id"));
+                ma.setNome(rs.getString("marca.nome"));
+                modelo.setMarca(ma);
+
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar as modelos: "
@@ -151,12 +175,18 @@ public class ModeloDAOJDBC implements ModeloDAO {
             pstm = conn.prepareStatement(LISTBYNOME);
             pstm.setString(1, nome);
             rs = pstm.executeQuery();
-            
-            while (rs.next()){
-                
+
+            while (rs.next()) {
+
                 modelo.setId(rs.getInt("id"));
-                modelo.setNome(rs.getString("nome"));
+                modelo.setDescricao(rs.getString("descricao"));
+                modelo.setPotencia(rs.getInt("potencia"));
                 
+                Marca ma = new Marca();
+                ma.setId(rs.getInt("marca.id"));
+                ma.setNome(rs.getString("marca.nome"));
+                modelo.setMarca(ma);
+
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar as modelos: "
