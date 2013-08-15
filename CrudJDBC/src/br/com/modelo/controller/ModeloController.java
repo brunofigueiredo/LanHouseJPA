@@ -41,7 +41,7 @@ public class ModeloController {
         return md.getModelosById(id);
     }
 
-    public Modelo getMarcByNome(String nome) {
+    public Modelo getModByNome(String nome) {
         ModeloDAO md = new ModeloDAOJDBC();
         return md.getModeloByNome(nome);
     }

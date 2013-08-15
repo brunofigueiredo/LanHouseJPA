@@ -205,10 +205,10 @@ private ModeloTableModel modelo;
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private Modelo buscarModelo(String nome){
-        ModeloController mc = new ModeloController();
-        return mc.getMarcByNome(nome);
-    }
+//    private Modelo buscarModelo(String nome){
+//        ModeloController mc = new ModeloController();
+//        return mc.getMarcByNome(nome);
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLimpar;

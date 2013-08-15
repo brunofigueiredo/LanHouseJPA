@@ -29,6 +29,10 @@ public class Marca {
         this.nome = nome;
     }
     
+    public String toString(){
+        return this.nome;
+    }
+    
     
     
 }

@@ -4,7 +4,9 @@
  */
 package br.com.view;
 
+import br.com.modelo.controller.MarcaController;
 import br.com.modelo.controller.ModeloController;
+import br.com.modelo.negocio.Marca;
 import br.com.modelo.negocio.Modelo;
 
 /**
@@ -13,12 +15,27 @@ import br.com.modelo.negocio.Modelo;
  */
 public class AtualizarModeloGUI extends javax.swing.JFrame {
 private ModeloTableModel modelo;
+   int linhaSelecionada;
+   int codigoModelo;
     /**
      * Creates new form ModeloGUI
      */
-    public AtualizarModeloGUI(ModeloTableModel md) {
+   public AtualizarModeloGUI(int linhaSelecionada, int cdModelo, 
+            ModeloTableModel modelo) {
+        this.linhaSelecionada = linhaSelecionada;
+        this.modelo = modelo;
+        this.codigoModelo = cdModelo;
         initComponents();
-        modelo = md;
+        
+        Modelo m = new Modelo();
+        ModeloController mc = new ModeloController();
+        m = mc.getModeloById(codigoModelo);
+        
+        txId.setText((Integer.toString(m.getId())));
+        txDescricao.setText(m.getDescricao());
+        txPotencia.setText(Integer.toString(m.getPotencia()));
+        
+        
     }
 
     /**
@@ -65,6 +82,8 @@ private ModeloTableModel modelo;
         cbMarca.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel5.setText("Id.:     ");
+
+        txId.setEditable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -149,10 +168,6 @@ private ModeloTableModel modelo;
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private Modelo buscarModelo(String nome){
-        ModeloController mc = new ModeloController();
-        return mc.getMarcByNome(nome);
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLimpar;

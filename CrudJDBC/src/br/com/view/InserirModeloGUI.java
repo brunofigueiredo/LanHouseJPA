@@ -4,21 +4,29 @@
  */
 package br.com.view;
 
+import br.com.modelo.controller.MarcaController;
 import br.com.modelo.controller.ModeloController;
+import br.com.modelo.negocio.Marca;
 import br.com.modelo.negocio.Modelo;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
  * @author rosicleia.souza
  */
 public class InserirModeloGUI extends javax.swing.JFrame {
-private ModeloTableModel modelo;
+
+    private ModeloTableModel modelo;
+
     /**
      * Creates new form ModeloGUI
      */
     public InserirModeloGUI(ModeloTableModel md) {
         initComponents();
         modelo = md;
+        carregarCombo();
     }
 
     /**
@@ -35,7 +43,7 @@ private ModeloTableModel modelo;
         jLabel2 = new javax.swing.JLabel();
         txDescricao = new javax.swing.JTextField();
         btLimpar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btSalvar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txPotencia = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -49,10 +57,10 @@ private ModeloTableModel modelo;
 
         btLimpar.setText("Limpar");
 
-        jButton2.setText("Salvar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btSalvar.setText("Salvar");
+        btSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btSalvarActionPerformed(evt);
             }
         });
 
@@ -72,7 +80,7 @@ private ModeloTableModel modelo;
                         .addGap(0, 254, Short.MAX_VALUE)
                         .addComponent(btLimpar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2))
+                        .addComponent(btSalvar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addComponent(jLabel1)
@@ -112,7 +120,7 @@ private ModeloTableModel modelo;
                 .addGap(11, 11, 11)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btLimpar)
-                    .addComponent(jButton2))
+                    .addComponent(btSalvar))
                 .addGap(27, 27, 27))
         );
 
@@ -130,23 +138,30 @@ private ModeloTableModel modelo;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         Modelo m = new Modelo();
         m.setDescricao(txDescricao.getText());
         m.setPotencia(Integer.parseInt(txPotencia.getText()));
-        //Faltou o combo
+       m.setMarca((Marca)cbMarca.getSelectedItem());
+       ModeloController mc = new ModeloController();
+       mc.inserir(m);
+     modelo.addModelo(buscarModelo(m.getDescricao()));
+        dispose();
+    }                                        
 
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private Modelo buscarModelo(String nome){
+    private Modelo buscarModelo(String descricao){
         ModeloController mc = new ModeloController();
-        return mc.getMarcByNome(nome);
-    }
+        return mc.getModByNome(descricao);
+    
+       
 
+    }//GEN-LAST:event_btSalvarActionPerformed
+    
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLimpar;
+    private javax.swing.JButton btSalvar;
     private javax.swing.JComboBox cbMarca;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -155,4 +170,20 @@ private ModeloTableModel modelo;
     private javax.swing.JTextField txDescricao;
     private javax.swing.JTextField txPotencia;
     // End of variables declaration//GEN-END:variables
+
+    private void carregarCombo() {
+        DefaultComboBoxModel comboModel =
+                (DefaultComboBoxModel) cbMarca.getModel();
+        //Remove todos os elementos do combo
+        comboModel.removeAllElements();
+        
+        List<Marca> marcas = new ArrayList<Marca>();
+        MarcaController a = new MarcaController();
+        marcas = a.getMarca();
+        
+        for (int linha = 0; linha < marcas.size(); linha++) {
+            Marca marca = marcas.get(linha);
+            comboModel.addElement(marca);
+        }
+    }
 }

@@ -50,7 +50,7 @@ private ModeloTableModel modelo;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Inserir Modelo");
+        jLabel1.setText("Inserir Automóvel");
 
         jLabel2.setText("Ano Fabricação.: ");
 
@@ -188,10 +188,10 @@ private ModeloTableModel modelo;
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private Modelo buscarModelo(String nome){
-        ModeloController mc = new ModeloController();
-        return mc.getMarcByNome(nome);
-    }
+//    private Modelo buscarModelo(String nome){
+//        ModeloController mc = new ModeloController();
+//        return mc.getMarcByNome(nome);
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLimpar;

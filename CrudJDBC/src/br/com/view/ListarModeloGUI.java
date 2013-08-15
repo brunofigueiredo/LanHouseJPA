@@ -4,8 +4,8 @@
  */
 package br.com.view;
 
-import br.com.modelo.controller.MarcaController;
-import br.com.modelo.negocio.Marca;
+import br.com.modelo.controller.ModeloController;
+import br.com.modelo.negocio.Modelo;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -15,19 +15,19 @@ import javax.swing.JOptionPane;
  * @author rosicleia.souza
  */
 public class ListarModeloGUI extends javax.swing.JFrame {
-    private MarcaTableModel modelo;
+    private ModeloTableModel modelo;
     /**
-     * Creates new form ListarMarcaGUI
+     * Creates new form ListarModeloGUI
      */
     public ListarModeloGUI() {
         initComponents();
-        List<Marca> lista = new ArrayList<Marca>();
+        List<Modelo> lista = new ArrayList<Modelo>();
         
-        MarcaController mc = new MarcaController();
-        lista = mc.getMarca();
+        ModeloController mc = new ModeloController();
+        lista = mc.getModelo();
         
-        modelo = new MarcaTableModel(lista);
-        tabMarca.setModel(modelo);
+        modelo = new ModeloTableModel(lista);
+        tabModelo.setModel(modelo);
     }
 
     /**
@@ -43,14 +43,14 @@ public class ListarModeloGUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txPesquisa = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabMarca = new javax.swing.JTable();
+        tabModelo = new javax.swing.JTable();
         btInserir = new javax.swing.JButton();
         btAtualizar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Marcas");
+        jLabel1.setText("Modelos");
 
         txPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -58,18 +58,18 @@ public class ListarModeloGUI extends javax.swing.JFrame {
             }
         });
 
-        tabMarca.setModel(new javax.swing.table.DefaultTableModel(
+        tabModelo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Title 3", "Title 4"
+                "Id", "Descrição", "Potência", "Marca"
             }
         ));
-        jScrollPane1.setViewportView(tabMarca);
+        jScrollPane1.setViewportView(tabModelo);
 
         btInserir.setText("Inserir");
         btInserir.addActionListener(new java.awt.event.ActionListener() {
@@ -105,20 +105,19 @@ public class ListarModeloGUI extends javax.swing.JFrame {
                                 .addComponent(jLabel1))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(txPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 119, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 15, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(61, 61, 61)
+                                .addComponent(btInserir)
+                                .addGap(18, 18, 18)
+                                .addComponent(btAtualizar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btExcluir)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(btInserir)
-                .addGap(18, 18, 18)
-                .addComponent(btAtualizar)
-                .addGap(18, 18, 18)
-                .addComponent(btExcluir)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,7 +140,9 @@ public class ListarModeloGUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,26 +153,26 @@ public class ListarModeloGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txPesquisaActionPerformed
-        MarcaController mc = new MarcaController();
-        List<Marca> lista = new ArrayList<>();
-        lista = mc.getMarcaByNome(txPesquisa.getText());
+        ModeloController mc = new ModeloController();
+        List<Modelo> lista = new ArrayList<>();
+        lista = mc.getModeloByNome(txPesquisa.getText());
         modelo.limpar();
-        modelo = new MarcaTableModel(lista);
-        tabMarca.setModel(modelo);
+        modelo = new ModeloTableModel(lista);
+        tabModelo.setModel(modelo);
     }//GEN-LAST:event_txPesquisaActionPerformed
 
     private void btInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInserirActionPerformed
-        InserirMarcaGUI in = new InserirMarcaGUI(modelo);
+        InserirModeloGUI in = new InserirModeloGUI(modelo);
         in.setVisible(true);
     }//GEN-LAST:event_btInserirActionPerformed
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
         int selecionado = -1;
-        selecionado = tabMarca.getSelectedRow();
+        selecionado = tabModelo.getSelectedRow();
         
         if (selecionado >=0){
-            Integer idMarca = (Integer)modelo.getValueAt(selecionado, 0);
-            AtualizarMarcaGUI am = new AtualizarMarcaGUI(selecionado, idMarca,
+            Integer idModelo = (Integer)modelo.getValueAt(selecionado, 0);
+            AtualizarModeloGUI am = new AtualizarModeloGUI(selecionado, idModelo,
                     modelo);
             am.setVisible(true);
         }else{
@@ -181,15 +182,15 @@ public class ListarModeloGUI extends javax.swing.JFrame {
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
          int selecionado = -1;
-        selecionado = tabMarca.getSelectedRow();
+        selecionado = tabModelo.getSelectedRow();
         
         if (selecionado >=0){
            
            Integer id = (Integer)modelo.getValueAt(selecionado, 0);
-           MarcaController mc = new MarcaController();
+           ModeloController mc = new ModeloController();
            mc.excluir(id);
            
-           modelo.removeMarca(selecionado);
+           modelo.removeModelo(selecionado);
         }else{
             JOptionPane.showMessageDialog(null, "Selecione uma linha");
         }
@@ -203,7 +204,7 @@ public class ListarModeloGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tabMarca;
+    private javax.swing.JTable tabModelo;
     private javax.swing.JTextField txPesquisa;
     // End of variables declaration//GEN-END:variables
 }
