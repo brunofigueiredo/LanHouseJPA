@@ -6,6 +6,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -41,10 +42,8 @@
                   <EmptySpace min="-2" pref="155" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="btMarca" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btModelo" max="32767" attributes="0"/>
-                          <Component id="btAutomovel" alignment="0" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="btModelo" max="32767" attributes="0"/>
+                      <Component id="btAutomovel" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="162" max="32767" attributes="0"/>
               </Group>
@@ -77,11 +76,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Modelo"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btModeloActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btAutomovel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Autom&#xf3;vel"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btAutomovelActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

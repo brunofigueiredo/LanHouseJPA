@@ -41,8 +41,18 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         });
 
         btModelo.setText("Modelo");
+        btModelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btModeloActionPerformed(evt);
+            }
+        });
 
         btAutomovel.setText("Automóvel");
+        btAutomovel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAutomovelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -52,9 +62,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                 .addGap(155, 155, 155)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btModelo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btAutomovel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(btModelo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btAutomovel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(162, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -87,6 +96,16 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         ListarMarcaGUI lmg = new ListarMarcaGUI();
         lmg.setVisible(true);
     }//GEN-LAST:event_btMarcaActionPerformed
+
+    private void btModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btModeloActionPerformed
+        ListarModeloGUI mo = new ListarModeloGUI();
+        mo.setVisible(true);
+    }//GEN-LAST:event_btModeloActionPerformed
+
+    private void btAutomovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAutomovelActionPerformed
+        ListarAutomovelGUI au = new ListarAutomovelGUI();
+        au.setVisible(true);
+    }//GEN-LAST:event_btAutomovelActionPerformed
 
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
