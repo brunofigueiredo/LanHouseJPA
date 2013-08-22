@@ -13,9 +13,10 @@ public interface AutomovelDAO {
     void inserir(Automovel a);
     void atualizar(Automovel a);
     void excluir (int id);
-    List<Automovel> getAutomovels();
-    List<Automovel> getAutomovelsByNome(String nome);
-    Automovel getAutomovelsById(int id);
-    Automovel getAutomovelByNome (String nome);
+    List<Automovel> getAutomoveis();
+    List<Automovel> getAutomoveisByAno(String nome);
+    Automovel getAutomovelById(int id);
+    Automovel getAutomovelByAno (String nome);
+    Automovel getAutomovelByAnoPreco (int anoFabricacao, int anoModelo, String observacoes);
     
 }

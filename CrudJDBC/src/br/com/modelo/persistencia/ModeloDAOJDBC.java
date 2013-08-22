@@ -18,15 +18,19 @@ public class ModeloDAOJDBC implements ModeloDAO {
     private final String INSERT = "INSERT INTO MODELO "
             + "(DESCRICAO, POTENCIA, MARCA_ID) VALUES (?,?,?)";
     private final String UPDATE = "UPDATE MODELO SET "
-            + "DESCRICAO = ?, POTENCIA = ?, MARCA = ? WHERE ID = ?";
+            + "DESCRICAO = ?, POTENCIA = ?, MARCA_ID = ? WHERE ID = ?";
     private final String DELETE = "DELETE FROM MODELO WHERE ID = ?";
     private final String LIST = "SELECT * FROM MODELO, MARCA "
             + "WHERE MODELO.MARCA_ID = MARCA.ID";
     private final String LISTBYNOME = "SELECT * FROM MODELO, "
             + "MARCA WHERE DESCRICAO LIKE ? AND "
             + "MODELO.MARCA_ID = MARCA.ID";
+    private final String LISTBYDESCRICAOPOTENCIA = "SELECT * FROM MODELO, "
+            + "MARCA WHERE DESCRICAO LIKE ? AND "
+            + "POTENCIA LIKE ? AND "
+            + "MODELO.MARCA_ID = MARCA.ID";
     private final String LISTBYID = "SELECT * FROM MODELO, MARCA "
-            + "WHERE ID = ? AND MODELO.MARCA_ID = MARCA.ID";
+            + "WHERE MODELO.ID = ? AND MODELO.MARCA_ID = MARCA.ID";
 
     public void inserir(Modelo m) {
         Connection conn = null;
@@ -174,6 +178,38 @@ public class ModeloDAOJDBC implements ModeloDAO {
             conn = FabricaConexao.getConnection();
             pstm = conn.prepareStatement(LISTBYNOME);
             pstm.setString(1, nome);
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+
+                modelo.setId(rs.getInt("id"));
+                modelo.setDescricao(rs.getString("descricao"));
+                modelo.setPotencia(rs.getInt("potencia"));
+                
+                Marca ma = new Marca();
+                ma.setId(rs.getInt("marca.id"));
+                ma.setNome(rs.getString("marca.nome"));
+                modelo.setMarca(ma);
+
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar as modelos: "
+                    + e.getMessage());
+        }
+        return modelo;
+    }
+
+    @Override
+    public Modelo getModeloByDescricaoPotencia(String descricao, int potencia) {
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        Modelo modelo = new Modelo();
+        try {
+            conn = FabricaConexao.getConnection();
+            pstm = conn.prepareStatement(LISTBYDESCRICAOPOTENCIA);
+            pstm.setString(1, descricao);
+            pstm.setInt(2, potencia);
             rs = pstm.executeQuery();
 
             while (rs.next()) {

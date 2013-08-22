@@ -70,4 +70,8 @@ public class Modelo {
         this.marca = marca;
     }
     
+     public String toString() {
+        return this.descricao;
+    }
+    
 }

@@ -2,9 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.modelo.app;
+package br.com.app;
 
-import br.com.view.JanelaPrincipal;
+import br.com.view.JanelaPrincipalGUI;
+
+
 
 /**
  *
@@ -13,7 +15,8 @@ import br.com.view.JanelaPrincipal;
 public class Principal {
     
     public static void main(String[] args) {
-        JanelaPrincipal jp = new JanelaPrincipal();
+        JanelaPrincipalGUI jp = new JanelaPrincipalGUI();
+        jp.setLocationRelativeTo(null);
         jp.setVisible(true);
     }
     

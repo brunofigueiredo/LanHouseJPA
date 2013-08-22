@@ -6,14 +6,14 @@ package br.com.view;
 
 /**
  *
- * @author rosicleia.souza
+ * @author MEUS DOCUMENTOS
  */
-public class JanelaPrincipal extends javax.swing.JFrame {
+public class JanelaPrincipalGUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form JanelaPrincipal
+     * Creates new form JanelaPrincipalGUI
      */
-    public JanelaPrincipal() {
+    public JanelaPrincipalGUI() {
         initComponents();
     }
 
@@ -29,11 +29,16 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btMarca = new javax.swing.JButton();
         btModelo = new javax.swing.JButton();
-        btAutomovel = new javax.swing.JButton();
+        btAutomóvel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
         btMarca.setText("Marca");
+        btMarca.setToolTipText("Marca");
+        btMarca.setBorderPainted(false);
+        btMarca.setOpaque(false);
         btMarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btMarcaActionPerformed(evt);
@@ -41,16 +46,20 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         });
 
         btModelo.setText("Modelo");
+        btModelo.setBorderPainted(false);
+        btModelo.setFocusable(false);
         btModelo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btModeloActionPerformed(evt);
             }
         });
 
-        btAutomovel.setText("Automóvel");
-        btAutomovel.addActionListener(new java.awt.event.ActionListener() {
+        btAutomóvel.setText("Automóvel");
+        btAutomóvel.setBorderPainted(false);
+        btAutomóvel.setFocusable(false);
+        btAutomóvel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btAutomovelActionPerformed(evt);
+                btAutomóvelActionPerformed(evt);
             }
         });
 
@@ -59,23 +68,23 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(155, 155, 155)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btModelo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btAutomovel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btAutomóvel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(btMarca)
-                .addGap(64, 64, 64)
-                .addComponent(btModelo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                .addComponent(btAutomovel)
-                .addGap(60, 60, 60))
+                .addContainerGap()
+                .addComponent(btMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btAutomóvel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -93,23 +102,29 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMarcaActionPerformed
-        ListarMarcaGUI lmg = new ListarMarcaGUI();
-        lmg.setVisible(true);
+        MarcaGui ma = new MarcaGui();
+        ma.setLocationRelativeTo(null);
+        ma.setVisible(true);
     }//GEN-LAST:event_btMarcaActionPerformed
 
     private void btModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btModeloActionPerformed
-        ListarModeloGUI mo = new ListarModeloGUI();
+        ModeloGui mo = new ModeloGui();
+        mo.setLocationRelativeTo(null);
         mo.setVisible(true);
     }//GEN-LAST:event_btModeloActionPerformed
 
-    private void btAutomovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAutomovelActionPerformed
-        ListarAutomovelGUI au = new ListarAutomovelGUI();
+    private void btAutomóvelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAutomóvelActionPerformed
+        AutomovelGui au = new AutomovelGui();
+        au.setLocationRelativeTo(null);
         au.setVisible(true);
-    }//GEN-LAST:event_btAutomovelActionPerformed
+    }//GEN-LAST:event_btAutomóvelActionPerformed
 
-  
+    /**
+     * @param args the command line arguments
+     */
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btAutomovel;
+    private javax.swing.JButton btAutomóvel;
     private javax.swing.JButton btMarca;
     private javax.swing.JButton btModelo;
     private javax.swing.JPanel jPanel1;

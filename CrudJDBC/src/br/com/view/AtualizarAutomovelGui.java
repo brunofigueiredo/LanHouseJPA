@@ -4,21 +4,52 @@
  */
 package br.com.view;
 
-import br.com.modelo.controller.ModeloController;
+import br.com.controller.AutomovelController;
+import br.com.controller.ModeloController;
+import br.com.modelo.negocio.Automovel;
 import br.com.modelo.negocio.Modelo;
+import br.com.validators.Validadores;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author rosicleia.souza
+ * @author MEUS DOCUMENTOS
  */
 public class AtualizarAutomovelGui extends javax.swing.JFrame {
-private ModeloTableModel modelo;
+
+    int linhaSelecionada;
+    int codigoMarca;
+    AutomovelTableModel model;
+
     /**
-     * Creates new form ModeloGUI
+     * Creates new form InserirMarcaGui
      */
-    public AtualizarAutomovelGui(ModeloTableModel md) {
+    public AtualizarAutomovelGui(int selecionado, int cdAutomovel, AutomovelTableModel mtb) {
         initComponents();
-        modelo = md;
+        txId.setEditable(false);
+        linhaSelecionada = selecionado;
+        cdAutomovel = cdAutomovel;
+        model = mtb;
+
+
+
+        AutomovelController mc = new AutomovelController();
+        Automovel mo = new Automovel();
+        mo = mc.listarAutomovelById(cdAutomovel);
+
+        txId.setText(Integer.toString(mo.getId()));
+        txAnoFabri.setText(Integer.toString(mo.getAnoFabricacao()));
+        txAnoMod.setText(Integer.toString(mo.getAnoModelo()));
+        txObservacoes.setText(mo.getObservacoes());
+        txPreco.setText(Double.toString(mo.getPreco()));
+        txQuilometragem.setText(Integer.toString(mo.getQuilometragem()));
+        
+        int id = mo.getModelo().getId();
+        carregarCombo(mo.getModelo().getId());
+
     }
 
     /**
@@ -32,188 +63,181 @@ private ModeloTableModel modelo;
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txAnoFabricacao = new javax.swing.JTextField();
-        btLimpar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        botaoLimpar = new javax.swing.JButton();
+        botaoSalvar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        txAnoPotencia = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        cbModelo = new javax.swing.JComboBox();
+        txId = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txAnoFabri = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txAnoMod = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txObservacoes = new javax.swing.JTextArea();
-        jLabel6 = new javax.swing.JLabel();
-        txPreco = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txQuilometragem = new javax.swing.JTextField();
+        txPreco = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txQuilometragem = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        cbModelo = new javax.swing.JComboBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Inserir Marca");
 
-        jLabel1.setText("Inserir Modelo");
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(null);
 
-        jLabel2.setText("Ano Fabricação.: ");
+        jLabel1.setText("Atualizar automóvel");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(57, 11, 140, 14);
 
-        btLimpar.setText("Limpar");
-
-        jButton2.setText("Salvar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        botaoLimpar.setText("Limpar");
+        botaoLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                botaoLimparActionPerformed(evt);
             }
         });
+        jPanel1.add(botaoLimpar);
+        botaoLimpar.setBounds(200, 400, 100, 23);
 
-        jLabel3.setText("Ano Modelo.:            ");
+        botaoSalvar.setText("Salvar");
+        botaoSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoSalvarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(botaoSalvar);
+        botaoSalvar.setBounds(300, 400, 100, 23);
 
-        jLabel4.setText("Modelo.:    ");
+        jLabel3.setText("Id.:");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(10, 39, 50, 14);
 
-        cbModelo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        txId.setEditable(false);
+        jPanel1.add(txId);
+        txId.setBounds(108, 36, 82, 20);
 
-        jLabel5.setText("Observações.:      ");
+        jLabel2.setText("Ano Fabricação.:  ");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(10, 70, 110, 14);
+        jPanel1.add(txAnoFabri);
+        txAnoFabri.setBounds(110, 70, 70, 20);
+
+        jLabel6.setText("Ano Modelo.:  ");
+        jPanel1.add(jLabel6);
+        jLabel6.setBounds(10, 110, 120, 14);
+        jPanel1.add(txAnoMod);
+        txAnoMod.setBounds(110, 100, 70, 20);
+
+        jLabel5.setText("Observações.:   ");
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(10, 150, 110, 14);
 
         txObservacoes.setColumns(20);
         txObservacoes.setRows(5);
         jScrollPane1.setViewportView(txObservacoes);
 
-        jLabel6.setText("Preço.:       ");
+        jPanel1.add(jScrollPane1);
+        jScrollPane1.setBounds(110, 150, 294, 74);
 
-        jLabel7.setText("Quilometragem.:     ");
+        jLabel7.setText("Preço.:  ");
+        jPanel1.add(jLabel7);
+        jLabel7.setBounds(10, 240, 80, 14);
 
-        jLabel8.setText("Id.:    ");
+        txPreco.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        jPanel1.add(txPreco);
+        txPreco.setBounds(110, 240, 60, 20);
 
-        jTextField1.setEditable(false);
+        jLabel8.setText("Quilometragem.:  ");
+        jPanel1.add(jLabel8);
+        jLabel8.setBounds(10, 270, 120, 14);
+        jPanel1.add(txQuilometragem);
+        txQuilometragem.setBounds(110, 270, 60, 20);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btLimpar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txQuilometragem, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(3, 3, 3)
-                                .addComponent(txAnoPotencia))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(18, 18, 18))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txAnoFabricacao, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addComponent(jLabel1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel4))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel6)
-                                .addGap(51, 51, 51)
-                                .addComponent(txPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addGap(25, 25, 25)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txAnoFabricacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txAnoPotencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txQuilometragem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(cbModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btLimpar)
-                    .addComponent(jButton2))
-                .addGap(27, 27, 27))
-        );
+        jLabel4.setText("Modelo.:   ");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(10, 310, 90, 14);
+
+        cbModelo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(cbModelo);
+        cbModelo.setBounds(110, 310, 166, 20);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Modelo m = new Modelo();
-        m.setDescricao(txAnoFabricacao.getText());
-        m.setPotencia(Integer.parseInt(txAnoPotencia.getText()));
-        //Faltou o combo
+    private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
+        Automovel m = new Automovel();
 
-    }//GEN-LAST:event_jButton2ActionPerformed
 
-//    private Modelo buscarModelo(String nome){
-//        ModeloController mc = new ModeloController();
-//        return mc.getMarcByNome(nome);
-//    }
+       if ((txAnoFabri.getText().length() <= 0)
+                || (!Validadores.verificaAno(txAnoFabri.getText())== true)
+                || (txAnoMod.getText().length() <= 0)
+                || (!Validadores.verificaAno(txAnoMod.getText())== true
+                || (txPreco.getText().length() <= 0)
+                || (!Validadores.SoNumeros(txQuilometragem.getText())== true))){
+               
+            String msg = "";
+            if (txAnoFabri.getText().length() <= 0) {
+                msg = msg + "Informe um ano de fabricação para o automovel\n";
+            }
+            if (Validadores.verificaAno(txAnoFabri.getText())== false){
+                msg = msg + "O ano de fabricação está incorreto\n";
+            }
+            if (txAnoMod.getText().length() <= 0) {
+                msg = msg + "Informe um ano do modelo para o automovel\n";
+            }
+            if (Validadores.verificaAno(txAnoMod.getText())== false){
+                msg = msg + "O ano do modelo está incorreto\n";
+            }
+            if ((Validadores.SoNumeros(txAnoMod.getText())== false)) {
+                msg = msg + "A quilometragem deve ser composta somente por números\n";
+            }
+            if (txPreco.getText().length() <= 0){
+                msg = msg + "O preço do automóvel deve ser informado\n";
+            }
+            JOptionPane.showMessageDialog(rootPane, msg);
+        } else {
+            m.setId(Integer.parseInt(txId.getText()));
+            m.setAnoFabricacao(Integer.parseInt(txAnoFabri.getText()));
+            m.setAnoModelo((Integer.parseInt(txAnoMod.getText())));
+            m.setObservacoes(txObservacoes.getText());
+            m.setPreco((Float.parseFloat(txPreco.getText())));
+            m.setQuilometragem(Integer.parseInt(txQuilometragem.getText()));
+            m.setModelo((Modelo) cbModelo.getSelectedItem());
 
+            AutomovelController mc = new AutomovelController();
+            mc.atualizar(m);
+            model.updateAutomovel(linhaSelecionada, m);
+            dispose();
+
+
+        }
+    }//GEN-LAST:event_botaoSalvarActionPerformed
+
+    private void botaoLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoLimparActionPerformed
+        txAnoFabri.setText("");
+        txAnoMod.setText(" ");
+        txObservacoes.setText("");
+        txPreco.setText("");
+        txQuilometragem.setText("");
+    }//GEN-LAST:event_botaoLimparActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btLimpar;
+    private javax.swing.JButton botaoLimpar;
+    private javax.swing.JButton botaoSalvar;
     private javax.swing.JComboBox cbModelo;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -224,11 +248,33 @@ private ModeloTableModel modelo;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField txAnoFabricacao;
-    private javax.swing.JTextField txAnoPotencia;
+    private javax.swing.JTextField txAnoFabri;
+    private javax.swing.JTextField txAnoMod;
+    private javax.swing.JTextField txId;
     private javax.swing.JTextArea txObservacoes;
-    private javax.swing.JTextField txPreco;
+    private javax.swing.JFormattedTextField txPreco;
     private javax.swing.JTextField txQuilometragem;
     // End of variables declaration//GEN-END:variables
+
+    private void carregarCombo(int cdModelo) {
+        //assim como é feito numa JTable, temos o DefaultComboBoxModel que é o model do JComboBox
+        DefaultComboBoxModel comboModel = (DefaultComboBoxModel) cbModelo.getModel();
+        //removendo todos os elementos do combo
+        comboModel.removeAllElements();
+        //cria a lista: java.util.List
+        List<Modelo> modelos = new ArrayList<Modelo>();
+        ModeloController a = new ModeloController();
+        modelos = a.listarModelo();
+
+
+        for (int linha = 0; linha < modelos.size(); linha++) {
+            //pegando a categoria da lista
+            Modelo modelo = modelos.get(linha);
+            //adicionando a categoria no combo
+            comboModel.addElement(modelo);
+            if (modelo.getId() == cdModelo) {
+                comboModel.setSelectedItem(modelo);
+            }
+        }
+    }
 }

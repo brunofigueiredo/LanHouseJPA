@@ -9,7 +9,7 @@ public class Automovel {
     
     private int id;
     private int anoFabricacao;
-    private int anomodelo;
+    private int anoModelo;
     private String observacoes;
     private double preco;
     private int quilometragem;
@@ -51,15 +51,15 @@ public class Automovel {
     /**
      * @return the anomodelo
      */
-    public int getAnomodelo() {
-        return anomodelo;
+    public int getAnoModelo() {
+        return anoModelo;
     }
 
     /**
      * @param anomodelo the anomodelo to set
      */
-    public void setAnomodelo(int anomodelo) {
-        this.anomodelo = anomodelo;
+    public void setAnoModelo(int anoModelo) {
+        this.anoModelo = anoModelo;
     }
 
     /**
@@ -118,4 +118,14 @@ public class Automovel {
         this.modelo = modelo;
     }
     
+     
+    public int compareTo(Automovel o) {
+        if (this.anoFabricacao < o.getAnoFabricacao()) {
+            return -1;
+        }
+        if (this.anoFabricacao > o.getAnoFabricacao()) {
+            return 1;
+        }
+        return 0;
+    }
 }

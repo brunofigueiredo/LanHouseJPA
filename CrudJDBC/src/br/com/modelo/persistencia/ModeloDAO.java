@@ -17,5 +17,5 @@ public interface ModeloDAO {
     List<Modelo> getModelosByNome(String nome);
     Modelo getModelosById(int id);
     Modelo getModeloByNome (String nome);
-    
+    Modelo getModeloByDescricaoPotencia(String descricao, int potencia);
 }
